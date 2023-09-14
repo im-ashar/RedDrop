@@ -1,0 +1,22 @@
+﻿@inherits LayoutComponentBase
+@inject IJSRuntime JsRuntime
+
+
+<NavMenu />
+<main class="relative flex flex-col">
+    <div class="flex-1">
+        @Body
+    </div>
+</main>
+
+@code {
+    private IJSObjectReference MyJsModule { get; set; }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Load the JS Helpers Module
+            MyJsModule = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "../node_modules/tw-elements/dist/js/tw-elements.umd.min.js");
+        }
+    }
+}
